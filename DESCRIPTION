@@ -8,8 +8,8 @@ Authors@R:
            email = "uskov.russia@gmail.com")
 Description: Get images from the PS1 image server
 License: MIT + file LICENSE
-URL: https://github.com/uskovgs/???
-BugReports: {{ BugReports }}
+URL: https://github.com/uskovgs/PanSTARRS
+BugReports: uskov.russia@gmail.com
 Imports: 
     attempt,
     dplyr,
