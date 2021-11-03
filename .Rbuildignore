@@ -6,3 +6,4 @@ Description-setup.R
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^\.github$

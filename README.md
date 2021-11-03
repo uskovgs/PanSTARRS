@@ -11,7 +11,7 @@ The goal of panstarrs package is to access [PanSTARRS](https://panstarrs.stsci.e
 
 ## Installation
 
-You can install the released version of panstarrs from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of panstarrs with:
 
 ``` r
 devtools::install_github('uskovgs/PanSTARRS')
