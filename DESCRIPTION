@@ -1,0 +1,29 @@
+Package: panstarrs
+Title: Pan-STARRS1 API
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Grigory",
+           family = "Uskov",
+           role = c("cre", "aut"),
+           email = "uskov.russia@gmail.com")
+Description: Get images from the PS1 image server
+License: MIT + file LICENSE
+URL: https://github.com/uskovgs/???
+BugReports: {{ BugReports }}
+Imports: 
+    attempt,
+    dplyr,
+    glue,
+    httr,
+    jsonlite,
+    magrittr,
+    purrr,
+    RCurl,
+    readr,
+    stringr
+Encoding: UTF-8
+RoxygenNote: 7.1.2
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
