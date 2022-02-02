@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(panstarrs)
 library(magrittr)
+library(magick)
+library(FITSio)
+library(celestial)
+library(magicaxis)
 ```
 
 

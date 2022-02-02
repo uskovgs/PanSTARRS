@@ -28,7 +28,7 @@ output_size has no effect for fits format images.}
 \item{format}{data format (options are "jpg", "png")}
 }
 \value{
-the image
+the image url
 }
 \description{
 Get color image at a sky position

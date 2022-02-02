@@ -38,7 +38,13 @@ Get URL of images
 }
 \examples{
 \dontrun{
-ps1_image_url(ra = 83.633210, dec = 22.014460, size = 1280, format = "jpg", filters = "grz", color = T)
+ps1_image_url(
+ra = 83.633210,
+dec = 22.014460,
+size = 1280,
+format = "jpg",
+filters = "grz",
+color = T)
 }
 
 }

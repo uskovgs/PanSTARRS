@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">panstarrs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -67,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/uskovgs/PanSTARRS/">
+  <a href="https://github.com/uskovgs/PanSTARRS/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -82,13 +78,13 @@
 
       
 
-      </header><script src="PS1_Cat_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>PS1 Cat examples</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/uskovgs/PanSTARRS/blob/master/vignettes/PS1_Cat.Rmd"><code>vignettes/PS1_Cat.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/uskovgs/PanSTARRS/blob/HEAD/vignettes/PS1_Cat.Rmd" class="external-link"><code>vignettes/PS1_Cat.Rmd</code></a></small>
       <div class="hidden name"><code>PS1_Cat.Rmd</code></div>
 
     </div>
@@ -96,26 +92,26 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/uskovgs/PanSTARRS">panstarrs</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</span>
-<span class="co">#&gt; ✓ ggplot2 3.3.5     ✓ purrr   0.3.4</span>
-<span class="co">#&gt; ✓ tibble  3.1.4     ✓ dplyr   1.0.7</span>
-<span class="co">#&gt; ✓ tidyr   1.1.3     ✓ stringr 1.4.0</span>
-<span class="co">#&gt; ✓ readr   2.0.2     ✓ forcats 0.5.1</span>
-<span class="co">#&gt; Warning: package 'readr' was built under R version 4.1.1</span>
-<span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span>
-<span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
-<span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span></code></pre></div>
-<div id="example-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#example-1" class="anchor"></a>Example 1</h1>
-<div id="get-meanpsfmag-in-grizy-filters-from-catalog-for-kq-uma" class="section level2">
-<h2 class="hasAnchor">
-<a href="#get-meanpsfmag-in-grizy-filters-from-catalog-for-kq-uma" class="anchor"></a>Get MeanPSFMag in grizy filters from catalog for KQ Uma</h2>
-<div id="get-coords-for-source" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-coords-for-source" class="anchor"></a>1. Get coords for source</h3>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://uskovgs.github.io/PanSTARRS/" class="external-link">panstarrs</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></code></pre></div>
+<div class="section level1">
+<h1 id="example-1">Example 1<a class="anchor" aria-label="anchor" href="#example-1"></a>
+</h1>
+<div class="section level2">
+<h2 id="get-meanpsfmag-in-grizy-filters-from-catalog-for-kq-uma">Get MeanPSFMag in grizy filters from catalog for KQ Uma<a class="anchor" aria-label="anchor" href="#get-meanpsfmag-in-grizy-filters-from-catalog-for-kq-uma"></a>
+</h2>
+<div class="section level3">
+<h3 id="get-coords-for-source">1. Get coords for source<a class="anchor" aria-label="anchor" href="#get-coords-for-source"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ps1_mast_resolve.html">ps1_mast_resolve</a></span><span class="op">(</span><span class="st">'KQ Uma'</span><span class="op">)</span>
 <span class="va">coords</span>
@@ -125,62 +121,62 @@
 <span class="co">#&gt; $decl</span>
 <span class="co">#&gt; [1] 68.63514</span></code></pre></div>
 </div>
-<div id="do-a-cone-search" class="section level3">
-<h3 class="hasAnchor">
-<a href="#do-a-cone-search" class="anchor"></a>2. Do a cone search</h3>
+<div class="section level3">
+<h3 id="do-a-cone-search">2. Do a cone search<a class="anchor" aria-label="anchor" href="#do-a-cone-search"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df_cone</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ps1_cone.html">ps1_cone</a></span><span class="op">(</span>ra <span class="op">=</span> <span class="va">coords</span><span class="op">$</span><span class="va">ra</span>, 
                dec <span class="op">=</span> <span class="va">coords</span><span class="op">$</span><span class="va">decl</span>,
                r_arcmin <span class="op">=</span> <span class="fl">0.01</span>,
                table <span class="op">=</span> <span class="st">'mean'</span>,
                release <span class="op">=</span> <span class="st">'dr2'</span><span class="op">)</span>
-<span class="va">df_cone</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">matches</a></span><span class="op">(</span><span class="st">'[grizy]MeanPSFMag$'</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 × 5</span>
+<span class="va">df_cone</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">matches</a></span><span class="op">(</span><span class="st">'[grizy]MeanPSFMag$'</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="co">#&gt;   gMeanPSFMag rMeanPSFMag iMeanPSFMag zMeanPSFMag yMeanPSFMag</span>
-<span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt; 1        15.0        14.6        14.2        14.3        14.3</span></code></pre></div>
+<span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        15.0        14.6        14.2        14.3        14.3</span></code></pre></div>
 </div>
-<div id="or-use-crossmatch" class="section level3">
-<h3 class="hasAnchor">
-<a href="#or-use-crossmatch" class="anchor"></a>3. Or use crossmatch</h3>
+<div class="section level3">
+<h3 id="or-use-crossmatch">3. Or use crossmatch<a class="anchor" aria-label="anchor" href="#or-use-crossmatch"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df_cross</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ps1_crossmatch.html">ps1_crossmatch</a></span><span class="op">(</span>ra <span class="op">=</span> <span class="va">coords</span><span class="op">$</span><span class="va">ra</span>, 
                dec <span class="op">=</span> <span class="va">coords</span><span class="op">$</span><span class="va">decl</span>,
                r_arcmin <span class="op">=</span> <span class="fl">0.01</span>,
                table <span class="op">=</span> <span class="st">'mean'</span>,
                release <span class="op">=</span> <span class="st">'dr2'</span><span class="op">)</span>
-<span class="va">df_cross</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">matches</a></span><span class="op">(</span><span class="st">'[grizy]MeanPSFMag$'</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 × 5</span>
+<span class="va">df_cross</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">matches</a></span><span class="op">(</span><span class="st">'[grizy]MeanPSFMag$'</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="co">#&gt;   gMeanPSFMag rMeanPSFMag iMeanPSFMag zMeanPSFMag yMeanPSFMag</span>
-<span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt; 1        15.0        14.6        14.2        14.3        14.3</span></code></pre></div>
+<span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        15.0        14.6        14.2        14.3        14.3</span></code></pre></div>
 </div>
 </div>
 </div>
-<div id="example-2" class="section level1">
-<h1 class="hasAnchor">
-<a href="#example-2" class="anchor"></a>Example 2</h1>
-<div id="cross-matching-with-ps1-catalog" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cross-matching-with-ps1-catalog" class="anchor"></a>Cross-matching with PS1 catalog</h2>
+<div class="section level1">
+<h1 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
+</h1>
+<div class="section level2">
+<h2 id="cross-matching-with-ps1-catalog">Cross-matching with PS1 catalog<a class="anchor" aria-label="anchor" href="#cross-matching-with-ps1-catalog"></a>
+</h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/ps1_crossmatch.html">ps1_crossmatch</a></span><span class="op">(</span>ra <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">268.70342</span>, <span class="fl">168.87258</span><span class="op">)</span>, 
-              dec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">71.54292</span>, <span class="fl">60.75153</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/ps1_crossmatch.html">ps1_crossmatch</a></span><span class="op">(</span>ra <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">268.70342</span>, <span class="fl">168.87258</span><span class="op">)</span>, 
+              dec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">71.54292</span>, <span class="fl">60.75153</span><span class="op">)</span>,
               table<span class="op">=</span> <span class="st">'mean'</span>,
-              release <span class="op">=</span> <span class="st">'dr2'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">`_searchID_`</span>, <span class="va">dstArcSec</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">7</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 8 × 5</span>
+              release <span class="op">=</span> <span class="st">'dr2'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">`_searchID_`</span>, <span class="va">dstArcSec</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">7</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 5</span></span>
 <span class="co">#&gt;   `_ra_` `_dec_` `_searchID_` MatchID            dstArcSec</span>
-<span class="co">#&gt;    &lt;dbl&gt;   &lt;dbl&gt;        &lt;int&gt; &lt;chr&gt;                  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1   269.    71.5            0 193852687043832438     1.25 </span>
-<span class="co">#&gt; 2   269.    71.5            0 193852687032912825     1.72 </span>
-<span class="co">#&gt; 3   269.    71.5            0 193852687025391786     1.83 </span>
-<span class="co">#&gt; 4   269.    71.5            0 193852687053472181     2.23 </span>
-<span class="co">#&gt; 5   269.    71.5            0 193852687052801597     2.91 </span>
-<span class="co">#&gt; 6   269.    71.5            0 193852687059232498     2.97 </span>
-<span class="co">#&gt; 7   169.    60.8            1 180901688728602532     0.470</span>
-<span class="co">#&gt; 8   169.    60.8            1 180901688732442143     1.61</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   269.    71.5            0 193852687043832438     1.25 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   269.    71.5            0 193852687032912825     1.72 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   269.    71.5            0 193852687025391786     1.83 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   269.    71.5            0 193852687053472181     2.23 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   269.    71.5            0 193852687052801597     2.91 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   269.    71.5            0 193852687059232498     2.97 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">7</span>   169.    60.8            1 180901688728602532     0.470</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">8</span>   169.    60.8            1 180901688732442143     1.61</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -196,11 +192,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Grigory Uskov.</p>
+  <p></p>
+<p>Developed by Grigory Uskov.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -208,6 +206,8 @@
 
   
 
+
+  
 
   </body>
 </html>

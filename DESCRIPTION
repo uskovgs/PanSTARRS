@@ -1,15 +1,12 @@
 Package: panstarrs
 Title: Pan-STARRS1 API
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
-    person(given = "Grigory",
-           family = "Uskov",
-           role = c("cre", "aut"),
-           email = "uskov.russia@gmail.com")
-Description: Get images from the PS1 image server
+    person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"))
+Description: Pan-STARRS R API interface.
 License: MIT + file LICENSE
-URL: https://github.com/uskovgs/PanSTARRS
-BugReports: uskov.russia@gmail.com
+URL: https://uskovgs.github.io/PanSTARRS/
+BugReports: https://github.com/uskovgs/PanSTARRS/issues
 Imports: 
     attempt,
     dplyr,
@@ -20,10 +17,15 @@ Imports:
     purrr,
     RCurl,
     readr,
-    stringr
+    stringr,
+    rlang
 Encoding: UTF-8
 RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
-    knitr
+    knitr,
+    magick,
+    FITSio,
+    celestial,
+    magicaxis
 VignetteBuilder: knitr

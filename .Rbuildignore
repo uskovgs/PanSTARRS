@@ -7,3 +7,7 @@ Description-setup.R
 ^docs$
 ^pkgdown$
 ^\.github$
+^\.
+^doc$
+^Meta$
+cran-comments.md

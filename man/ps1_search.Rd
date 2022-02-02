@@ -31,8 +31,15 @@ Do a general search of the PS1 catalog (possibly without ra/dec/radius)
 }
 \examples{
 \dontrun{
-ps1_search(table='detection',release='dr2',objid = '190361393344112894')
+ps1_search(
+table='detection',
+release='dr2',
+objid = '190361393344112894')
 
-ps1_search(table='mean',release='dr2',objid = '190361393344112894', columns = c('objName', 'raMean', 'decMean', 'rMeanPSFMag'))
+ps1_search(
+table='mean',
+release='dr2',
+objid = '190361393344112894',
+columns = c('objName', 'raMean', 'decMean', 'rMeanPSFMag'))
 }
 }

@@ -46,6 +46,7 @@ checklegal <- function(table, release) {
 #' @importFrom httr stop_for_status
 #' @importFrom jsonlite fromJSON
 #' @importFrom dplyr select
+#' @importFrom rlang .data
 #'
 #' @examples
 #' \dontrun{
@@ -68,7 +69,7 @@ ps1_metadata <- function(table = c("mean", "stack", "detection"), release = c("d
   meta_info <- resp %>%
     content(as = "text") %>%
     fromJSON() %>%
-    select(name, type, description)
+    select(.data$name, .data$type, .data$description)
 
   return(meta_info)
 }
@@ -87,9 +88,16 @@ ps1_metadata <- function(table = c("mean", "stack", "detection"), release = c("d
 #'
 #' @examples
 #' \dontrun{
-#' ps1_search(table='detection',release='dr2',objid = '190361393344112894')
+#' ps1_search(
+#' table='detection',
+#' release='dr2',
+#' objid = '190361393344112894')
 #'
-#' ps1_search(table='mean',release='dr2',objid = '190361393344112894', columns = c('objName', 'raMean', 'decMean', 'rMeanPSFMag'))
+#' ps1_search(
+#' table='mean',
+#' release='dr2',
+#' objid = '190361393344112894',
+#' columns = c('objName', 'raMean', 'decMean', 'rMeanPSFMag'))
 #' }
 ps1_search <- function(table = c("mean", "stack", "detection"),
                        release = c("dr2", "dr1"),
@@ -207,6 +215,7 @@ ps1_cone <- function(ra,
 #' @return data.frame
 #' @export
 #'
+#'
 #' @examples
 #' \dontrun{
 #' ps1_crossmatch(ra = c(268.70342, 168.87258), dec = c(71.54292, 60.75153))
@@ -250,11 +259,11 @@ ps1_crossmatch <- function(ra,
   if(verbose)
     print(resp)
 
-  resp %>%
+  resp <- resp %>%
     httr::content(as = 'text') %>%
-    jsonlite::fromJSON() %>%
-    .$data %>%
-    dplyr::as_tibble()
+    jsonlite::fromJSON()
+
+    dplyr::as_tibble(resp$data)
 }
 
 #' Get the RA and Dec for objects from PanSTARRS catalog.
@@ -291,7 +300,7 @@ ps1_resolve <- function(target_names,
   sources_df <- data.frame(target = target_names,
                            search_id = 0:(length(target_names)-1))
 
-  sources_json <- sources_df %>% select(target) %>% jsonlite::toJSON()
+  sources_json <- sources_df %>% select(.data$target) %>% jsonlite::toJSON()
 
   response <- httr::POST(
     url = glue::glue('{base_url}/{release}/{table}/crossmatch/'),
@@ -308,13 +317,14 @@ ps1_resolve <- function(target_names,
 
   df <- response %>%
     httr::content(as = 'text') %>%
-    jsonlite::fromJSON() %>%
-    .$data %>%
-    dplyr::rename(ra=`_ra_`, dec=`_dec_`) %>%
+    jsonlite::fromJSON()
+
+  df <- df$data %>%
+    dplyr::rename(ra=.data$`_ra_`, dec=.data$`_dec_`) %>%
     dplyr::left_join(sources_df, by=c('_searchID_'='search_id')) %>%
-    dplyr::select(target, everything()) %>%
-    dplyr::select(target, ra, dec) %>%
-    dplyr::group_by(target) %>%
+    dplyr::select(.data$target, .data$everything()) %>%
+    dplyr::select(.data$target, .data$ra, .data$dec) %>%
+    dplyr::group_by(.data$target) %>%
     dplyr::slice(1) %>%
     dplyr::ungroup()
   df

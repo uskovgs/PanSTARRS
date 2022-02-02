@@ -55,10 +55,17 @@ ps1_image_list <- function(ra, dec, size = 240, filters = "grizy") {
 #' @importFrom dplyr mutate
 #' @importFrom dplyr arrange
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #'
 #' @examples
 #' \dontrun{
-#' ps1_image_url(ra = 83.633210, dec = 22.014460, size = 1280, format = "jpg", filters = "grz", color = T)
+#' ps1_image_url(
+#' ra = 83.633210,
+#' dec = 22.014460,
+#' size = 1280,
+#' format = "jpg",
+#' filters = "grz",
+#' color = T)
 #' }
 #'
 ps1_image_url <- function(ra, dec, size = 240, output_size = NULL, filters = "grizy", format = "jpg", color = FALSE) {
@@ -81,8 +88,8 @@ ps1_image_url <- function(ra, dec, size = 240, output_size = NULL, filters = "gr
   if (!is.null(output_size)) url <- glue(url, "&output_size={output_size}")
 
   table <- table %>%
-    mutate(filter = factor(filter, levels = c("y", "z", "i", "r", "g"))) %>%
-    arrange(filter)
+    mutate(filter = factor(.data$filter, levels = c("y", "z", "i", "r", "g"))) %>%
+    arrange(.data$filter)
 
   if (color) {
     if (nrow(table) > 3) table <- table[c(1, 2, 3), ]

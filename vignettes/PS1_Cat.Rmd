@@ -16,7 +16,8 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(panstarrs)
-library(tidyverse)
+library(dplyr)
+library(magrittr)
 ```
 
 # Example 1

@@ -15,7 +15,7 @@ ps1_metadata(
 \item{release}{"dr1" or "dr2"(default)}
 }
 \value{
-Returns an data.frame with columns name, type, description
+Returns data.frame with columns: name, type, description
 }
 \description{
 Return metadata for the specified catalog and table
