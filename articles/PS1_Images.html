@@ -185,7 +185,9 @@
 </h3>
 <p>It is example how to make a guidance plot. You should wrap it in your function for best practice.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>oma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">oma_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">'oma'</span><span class="op">)</span>
+<span class="va">mar_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">'mar'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>oma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># Convert source coords from (RA, DEC) to image coords (X,Y)</span>
 <span class="va">src</span> <span class="op">&lt;-</span> <span class="fu">celestial</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/celestial/man/skyproj.html" class="external-link">radec2xy</a></span><span class="op">(</span>
     RA <span class="op">=</span> <span class="va">coords</span><span class="op">$</span><span class="va">ra</span>,
@@ -229,6 +231,8 @@
        y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fits_obj</span><span class="op">$</span><span class="va">imDat</span><span class="op">)</span><span class="op">-</span><span class="fl">50</span>,
        label <span class="op">=</span> <span class="st">'KQ Uma'</span><span class="op">)</span></code></pre></div>
 <p><img src="PS1_Images_files/figure-html/unnamed-chunk-6-1.png" width="480"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>oma <span class="op">=</span> <span class="va">oma_old</span>, mar <span class="op">=</span> <span class="va">mar_old</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
   </div>
