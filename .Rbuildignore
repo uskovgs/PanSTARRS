@@ -11,3 +11,4 @@ Description-setup.R
 ^doc$
 ^Meta$
 cran-comments.md
+^CRAN-SUBMISSION$

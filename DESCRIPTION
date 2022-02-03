@@ -1,9 +1,14 @@
 Package: panstarrs
-Title: Pan-STARRS1 API
+Title: Interface to the Pan-STARRS API
 Version: 0.1.0
 Authors@R: 
     person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"))
-Description: Pan-STARRS R API interface.
+Description: An interface to the API for 'Pan-STARRS1', 
+  a data archive of the PS1 wide-field astronomical survey. 
+  The package allows access to the PS1 catalog and to the PS1 images.
+  (see <https://outerspace.stsci.edu/display/PANSTARRS/> for more information).
+  You can use it to plan astronomical observations, make guidance pictures, 
+  find magnitudes in five broadband filters (g, r, i, z, y) and more. 
 License: MIT + file LICENSE
 URL: https://uskovgs.github.io/PanSTARRS/
 BugReports: https://github.com/uskovgs/PanSTARRS/issues

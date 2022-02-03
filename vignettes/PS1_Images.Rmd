@@ -93,6 +93,8 @@ fix_header <- function(header) {
 
 It is example how to make a guidance plot. You should wrap it in your function for best practice.
 ```{r, fig.width=5, fig.height=5}
+oma_old <- par('oma')
+mar_old <- par('mar')
 par(oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0))
 # Convert source coords from (RA, DEC) to image coords (X,Y)
 src <- celestial::radec2xy(
@@ -136,5 +138,9 @@ arrows(x0 = src[1],
 text(x = ncol(fits_obj$imDat)/2,
        y = nrow(fits_obj$imDat)-50,
        label = 'KQ Uma')
+```
+
+```{r}
+par(oma = oma_old, mar = mar_old)
 ```
 
