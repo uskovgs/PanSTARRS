@@ -6,6 +6,6 @@ This is a resubmission. In this version I have:
 
 * Added a web reference for the API.
 
-* 
+* reset par() in inst/doc/PS1_Images.R
 
 
