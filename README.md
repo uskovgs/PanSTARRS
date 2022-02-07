@@ -1,11 +1,10 @@
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/panstarrs)](https://CRAN.R-project.org/package=panstarrs)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
   
 # panstarrs
 
-<!-- badges: start -->
-<!-- badges: end -->
 
 The goal of panstarrs package is to access [PanSTARRS](https://panstarrs.stsci.edu/) data archive.
 
