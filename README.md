@@ -13,7 +13,8 @@ The goal of panstarrs package is to access [PanSTARRS](https://panstarrs.stsci.e
 You can install the released version of panstarrs with:
 
 ``` r
-devtools::install_github('uskovgs/PanSTARRS')
+# devtools::install_github('uskovgs/PanSTARRS')
+install.packages("panstarrs")
 ```
 
 ## Example
