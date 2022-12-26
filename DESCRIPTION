@@ -1,6 +1,6 @@
 Package: panstarrs
 Title: Interface to the Pan-STARRS API
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"),
     comment = c(ORCID = "0000-0002-0274-1350"))
