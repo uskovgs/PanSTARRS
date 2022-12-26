@@ -4,13 +4,10 @@
 \alias{ps1_metadata}
 \title{Metadata from PS1}
 \usage{
-ps1_metadata(
-  table = c("mean", "stack", "detection"),
-  release = c("dr2", "dr1")
-)
+ps1_metadata(table = "mean", release = "dr2")
 }
 \arguments{
-\item{table}{"mean", "stack", or "detection"}
+\item{table}{"mean", "stack", "forced_mean" or "detection"}
 
 \item{release}{"dr1" or "dr2"(default)}
 }

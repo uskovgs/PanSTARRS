@@ -16,39 +16,41 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(panstarrs)
+library(dplyr)
 library(magrittr)
+library(glue)
 library(magick)
 library(FITSio)
 library(celestial)
 library(magicaxis)
 ```
 
-
 # Example 1: Plot color image of Antennae galaxy
-```{r}
 
+```{r}
 ps1_image_color(ra = 180.4721, dec = -18.87694, format = 'png', size = 600) %>%
   magick::image_read() %>% 
   magick::image_resize("400x400")
 ```
 
-
-
 # Example 2: Making guidance picture
+
 ## 1. Get coords of the KQ Uma
 
 ```{r}
 coords <- ps1_mast_resolve('KQ Uma')
 coords
 ```
+
 ```{r}
 img_url <- ps1_image_url(ra=coords$ra, dec=coords$dec, size = 1280, filter = "r", format = "fits")
 fits_obj <- FITSio::readFITS(img_url)
 ```
 
-## 2. Fix header 
+## 2. Fix header
 
 FITS image headers use the obsolete PC001001, PC001002, etc., keywords for the WCS. We should fix (add some keywords to headers) it to plot right using magicaxis package
+
 ```{r}
 fix_header <- function(header) {
   # FITSio --> obj$hdr
@@ -92,6 +94,7 @@ fix_header <- function(header) {
 ## Plot the image guidance
 
 It is example how to make a guidance plot. You should wrap it in your function for best practice.
+
 ```{r, fig.width=5, fig.height=5}
 oma_old <- par('oma')
 mar_old <- par('mar')
@@ -143,4 +146,3 @@ text(x = ncol(fits_obj$imDat)/2,
 ```{r}
 par(oma = oma_old, mar = mar_old)
 ```
-

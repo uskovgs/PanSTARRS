@@ -7,7 +7,7 @@
 ps1_mast_query(request)
 }
 \arguments{
-\item{request}{(list): The MAST request json object}
+\item{request}{The MAST request json object}
 }
 \value{
 Returns response

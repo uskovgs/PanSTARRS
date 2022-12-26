@@ -4,12 +4,10 @@
 \alias{ps1_resolve}
 \title{Get the RA and Dec for objects from PanSTARRS catalog.}
 \usage{
-ps1_resolve(target_names, full_table = FALSE, verbose = FALSE)
+ps1_resolve(target_names, verbose = FALSE)
 }
 \arguments{
 \item{target_names}{character vector of target names (see example)}
-
-\item{full_table}{show full cross-matched table or only main columns.}
 
 \item{verbose}{print info about request}
 }

@@ -1,8 +1,8 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.1
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   PS1_Cat: PS1_Cat.html
   PS1_Images: PS1_Images.html
-last_built: 2022-02-15T19:15Z
+last_built: 2022-12-24T23:44Z
 

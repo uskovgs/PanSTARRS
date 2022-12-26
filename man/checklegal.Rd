@@ -7,7 +7,7 @@
 checklegal(table, release)
 }
 \arguments{
-\item{table}{"mean", "stack", "detection"}
+\item{table}{"mean", "stack", "forced_mean", "detection"}
 
 \item{release}{"dr2", "dr1"}
 }

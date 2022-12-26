@@ -2,7 +2,8 @@ Package: panstarrs
 Title: Interface to the Pan-STARRS API
 Version: 0.1.0
 Authors@R: 
-    person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"))
+    person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"),
+    comment = c(ORCID = "0000-0002-0274-1350"))
 Description: An interface to the API for 'Pan-STARRS1', a data archive of
     the PS1 wide-field astronomical survey.  The package allows access to
     the PS1 catalog and to the PS1 images.  (see
@@ -13,26 +14,27 @@ Description: An interface to the API for 'Pan-STARRS1', a data archive of
 License: MIT + file LICENSE
 URL: https://uskovgs.github.io/PanSTARRS/
 BugReports: https://github.com/uskovgs/PanSTARRS/issues
+Depends: 
+    R (>= 2.10)
 Imports: 
     attempt,
-    dplyr,
+    bit64,
+    data.table,
     glue,
     httr,
-    jsonlite,
-    magrittr,
-    purrr,
-    RCurl,
-    readr,
-    rlang,
-    stringr
+    jsonlite
 Suggests: 
     celestial,
+    dplyr,
     FITSio,
     knitr,
     magicaxis,
     magick,
-    rmarkdown
+    magrittr,
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3

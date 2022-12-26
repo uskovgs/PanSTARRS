@@ -2,7 +2,7 @@
 title: "PS1 Cat examples"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{PS1_Cat}
+  %\VignetteIndexEntry{PS1 Cat examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
