@@ -21,8 +21,14 @@
 ps1_image_list <- function(ra, dec, size = 240, filters = "grizy") {
   service <- "https://ps1images.stsci.edu/cgi-bin/ps1filenames.py"
 
-  url <- glue::glue("{service}?ra={ra}&dec={dec}&",
-                    "size={size}&format=fits&filters={filters}")
+  url <- paste0(
+    service,
+    "?ra=", ra,
+    "&dec=", dec,
+    "&size=", size,
+    "&format=fits",
+    "&filters=", filters
+    )
 
   resp <- httr::GET(
     url,
@@ -73,12 +79,15 @@ ps1_image_url <- function(ra, dec, size = 240, output_size = NULL, filters = "gr
   )
 
   table <- ps1_image_list(ra, dec, size = size, filters = filters)
-  url <- glue::glue(
+  url <- paste0(
     "https://ps1images.stsci.edu/cgi-bin/fitscut.cgi?",
-    "ra={ra}&dec={dec}&size={size}&format={format}"
+    "ra=", ra,
+    "&dec=", dec,
+    "&size=", size,
+    "&format=", format
   )
 
-  if (!is.null(output_size)) url <- glue::glue(url, "&output_size={output_size}")
+  if (!is.null(output_size)) url <- paste0(url, "&output_size=", output_size)
 
   table$filter <- factor(table$filter, levels = c("y", "z", "i", "r", "g"))
   data.table::setorder(table, "filter")
@@ -88,7 +97,7 @@ ps1_image_url <- function(ra, dec, size = 240, output_size = NULL, filters = "gr
 
     color_labels <- c("red", "green", "blue")
     url_color_part <- paste(
-      glue::glue("&{color_labels}={table$filename}"),
+      paste0("&", color_labels, "=", table$filename),
       collapse = ""
     )
     url <- paste0(url, url_color_part)

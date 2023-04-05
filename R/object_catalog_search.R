@@ -10,12 +10,11 @@ checklegal <- function(table, release) {
   releaselist <- c("dr1", "dr2")
 
 
-  attempt::stop_if_not(release %in% releaselist,
-                       msg = glue::glue(
-                         "Bad value for release (must be one of",
-                         paste(releaselist, collapse = ", "),
-                         ")"
-                       )
+  attempt::stop_if_not(
+    release %in% releaselist,
+    msg = paste0("Bad value for release (must be one of ",
+                 paste(releaselist, collapse = ", "),")"
+                 )
   )
   if (release == "dr1") {
     tablelist <- c("mean", "stack")
@@ -23,10 +22,12 @@ checklegal <- function(table, release) {
     tablelist <- c("mean", "stack", "forced_mean", "detection")
   }
 
-  attempt::stop_if_not(table %in% tablelist,
-                       msg = glue::glue("Bad value for table (for {release} must be one of {
-                                        paste(tablelist,  collapse = ', ')
-                     })")
+  attempt::stop_if_not(
+    table %in% tablelist,
+    msg = paste0(
+      "Bad value for table (for ", release, " must be one of ",
+      paste(tablelist, collapse = ", "), ")"
+    )
   )
 }
 
@@ -39,8 +40,6 @@ checklegal <- function(table, release) {
 #' @return A data frame
 #'
 get_metadata <- function(table, release) {
-  checklegal(table, release)
-
   return(.meta[[paste0(table, "_", release)]])
 }
 
@@ -56,7 +55,7 @@ get_metadata <- function(table, release) {
 #'
 convert_types <- function(dt, cols, types) {
 
-  convert_type_functions <- list(
+  convert_function <- list(
     "char" = as.character,
     "long" = bit64::as.integer64,
     "unsignedByte" = as.integer,
@@ -66,16 +65,7 @@ convert_types <- function(dt, cols, types) {
     "float" = as.double
   )
 
-  # dt[[cols]] <- mapply(function(col, type) {
-  #   convert_type_functions[[type]](dt[[col]])
-  # },
-  # cols,
-  # types,
-  # SIMPLIFY = TRUE)
-
-  for(i in seq_along(cols)) {
-    dt[[cols[i]]] <- convert_type_functions[[types[i]]](dt[[cols[i]]])
-  }
+  dt[cols] <- lapply(seq_along(cols), function(i) convert_function[[types[i]]](dt[[i]]))
 
   return(dt)
 }
@@ -103,9 +93,12 @@ ps1_metadata <- function(table = "mean", release = "dr2") {
 
   checklegal(table, release)
 
-  resp <- httr::GET(
-    glue::glue("{baseurl}/{release[1]}/{table[1]}/metadata"),
-    httr::user_agent("panstarrs (https://cran.r-project.org/web/packages/panstarrs/)")
+  resp <- httr::RETRY(
+    "GET",
+    paste(baseurl, release[1], table[1], "metadata", sep = "/"),
+    panstarrs_user_agent(),
+    times = 3,
+    pause_base = 2
   )
 
   httr::stop_for_status(resp)
@@ -147,22 +140,17 @@ ps1_search <- function(table = c("mean", "stack", "detection"),
 
   release <- release[1]
   tabel <- table[1]
+  checklegal(table, release)
 
-
-
-  baseurl = "https://catalogs.mast.stsci.edu/api/v0.1/panstarrs"
 
   data <-  list(...)
-
   attempt::stop_if(length(data) == 0,
                    msg = "You must specify some parameters for search")
 
-  checklegal(table, release)
 
-  # attempt::stop_if_not(format %in% c("csv","votable","json"),
-  #                      msg = "Bad value for format")
 
-  url <- glue::glue("{baseurl}/{release}/{table}.json")
+  baseurl <- "https://catalogs.mast.stsci.edu/api/v0.1/panstarrs"
+  url <- paste0(baseurl, "/", release, "/", table, ".json")
 
   metadata <- get_metadata(table, release)
 
@@ -173,10 +161,13 @@ ps1_search <- function(table = c("mean", "stack", "detection"),
     columns2 <- tolower(columns)
     badcols <- columns[which(!(columns2 %in% cols_meta))]
 
-    attempt::message_if(length(badcols) != 0,
-                        msg = glue::glue("Some columns not found in table: {
-                                          paste(badcols, collapse = ', ')
-                         }"))
+    attempt::message_if(
+      length(badcols) != 0,
+      msg = paste0(
+        "Some columns not found in table: ",
+        paste(badcols, collapse = ", ")
+      )
+    )
 
     data['columns'] <- jsonlite::toJSON(columns)
   }
@@ -184,7 +175,7 @@ ps1_search <- function(table = c("mean", "stack", "detection"),
   resp <- httr::GET(
     url,
     query = data,
-    httr::user_agent("panstarrs (https://cran.r-project.org/web/packages/panstarrs/)")
+    panstarrs_user_agent()
   )
 
   if(verbose)
@@ -281,16 +272,26 @@ ps1_crossmatch <- function(ra,
 
   checklegal(table, release)
 
-  attempt::stop_if(length(ra) != length(dec),
-                   msg = glue::glue("Length of ra [{length(ra)}] is not equal to length of dec [{length(dec)}]"))
+  attempt::stop_if(
+    length(ra) != length(dec),
+    msg = paste0(
+      "Length of ra [", length(ra), "] ",
+      "is not equal to length of dec [", length(dec), "]"
+    )
+  )
 
-  attempt::stop_if(length(ra) > 5000,
-                   msg = glue::glue("The length of the sources [{length(ra)}] is more tha 5000 items."))
+  attempt::stop_if(
+    length(ra) > 5000,
+    msg = paste0(
+      "The length of the sources [", length(ra), "] ",
+      "is more tha 5000 items."
+      )
+    )
 
   sources_json <- jsonlite::toJSON(data.frame(ra = ra, dec = dec))
 
   resp <- httr::POST(
-    url = glue::glue('{base_url}/{release}/{table}/crossmatch/'),
+    url = paste0(base_url, "/", release, "/", table, "/crossmatch/"),
     query = list(
       resolve = FALSE,
       radius = r_arcmin/60,
@@ -298,7 +299,7 @@ ps1_crossmatch <- function(ra,
       dec_name = "dec",
       targets = sources_json
     ),
-    httr::user_agent("panstarrs (https://cran.r-project.org/web/packages/panstarrs/)")
+    panstarrs_user_agent()
     )
 
   httr::stop_for_status(resp)
@@ -347,9 +348,13 @@ ps1_resolve <- function(target_names, verbose = FALSE) {
   checklegal(table, release)
   # Create json list
 
-  attempt::stop_if(length(target_names) > 500,
-                   msg = glue::glue("The length of the `target_names`
-                                    [{length(target_names)}] is more than 5000 items."))
+  attempt::stop_if(
+    length(target_names) > 500,
+    msg = paste0(
+      "The length of the `target_names` [", length(target_names), "] ",
+      "is more than 5000 items."
+      )
+  )
 
 
   sources_df <- data.frame(
@@ -360,13 +365,14 @@ ps1_resolve <- function(target_names, verbose = FALSE) {
   sources_json <- jsonlite::toJSON(subset(sources_df, select = "target"))
 
   resp <- httr::POST(
-    url = glue::glue('{base_url}/{release}/{table}/crossmatch/'),
+    url = paste0(base_url, "/", release, "/", table, "/crossmatch/"),
     query = list(
       resolve = TRUE,
       target_name = 'target',
       targets = sources_json
     ),
-    httr::user_agent("panstarrs (https://cran.r-project.org/web/packages/panstarrs/)")
+    panstarrs_user_agent(),
+    httr::verbose()
     )
 
   httr::stop_for_status(resp)
@@ -400,7 +406,7 @@ ps1_mast_query <- function(request){
   resp <- httr::GET(
     url = "https://mast.stsci.edu/api/v0/invoke",
     query = list(request = requestString),
-    httr::user_agent("panstarrs (https://cran.r-project.org/web/packages/panstarrs/)"),
+    panstarrs_user_agent(),
     encode = "form"
   )
 
@@ -434,10 +440,11 @@ ps1_mast_resolve <- function(name) {
 
   coords <- attempt::try_catch(
     resolvedObject$resolvedCoordinate[[1]][c("ra", "decl")],
-    .e = ~message(glue::glue("Unknown object '{name}'"))
+    .e = ~message(paste0("Unknown object '", name, "'"))
   )
 
   return(coords)
 }
+
 
 
