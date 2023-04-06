@@ -103,7 +103,9 @@ ps1_metadata <- function(table = "mean", release = "dr2") {
 
   httr::stop_for_status(resp)
 
-  meta_info <- jsonlite::fromJSON(httr::content(resp, as = "text"))
+  meta_info <- jsonlite::fromJSON(
+    httr::content(resp, as = "text", encoding = "UTF-8")
+  )
   return(meta_info[, c("name", "type", "description")])
 }
 
@@ -184,7 +186,7 @@ ps1_search <- function(table = c("mean", "stack", "detection"),
   httr::stop_for_status(resp)
 
   cont <- jsonlite::fromJSON(
-    txt = httr::content(resp, as = 'text'),
+    txt = httr::content(resp, as = 'text', encoding = "UTF-8"),
     simplifyVector = FALSE,
     bigint_as_char = TRUE
   )
@@ -293,11 +295,11 @@ ps1_crossmatch <- function(ra,
   resp <- httr::POST(
     url = paste0(base_url, "/", release, "/", table, "/crossmatch/"),
     query = list(
+      targets = sources_json,
       resolve = FALSE,
       radius = r_arcmin/60,
       ra_name = "ra",
-      dec_name = "dec",
-      targets = sources_json
+      dec_name = "dec"
     ),
     panstarrs_user_agent()
     )
@@ -308,7 +310,7 @@ ps1_crossmatch <- function(ra,
     print(resp)
 
   cont <- jsonlite::fromJSON(
-    httr::content(resp, as = 'text'),
+    httr::content(resp, as = 'text', encoding = "UTF-8"),
     bigint_as_char = TRUE
   )
 
@@ -381,7 +383,7 @@ ps1_resolve <- function(target_names, verbose = FALSE) {
     print(resp)
 
   cont <- jsonlite::fromJSON(
-    httr::content(resp, as = 'text'),
+    httr::content(resp, as = 'text', encoding = "UTF-8"),
     bigint_as_char = TRUE
   )
 
