@@ -230,6 +230,9 @@ ps1_cone <- function(ra,
                      columns = NULL,
                      verbose = FALSE,
                      ...) {
+
+  validate_radec(ra, dec, .length = 1L)
+
   ps1_search(
     table = table[1],
     release = release[1],
@@ -265,7 +268,7 @@ ps1_crossmatch <- function(ra,
                            r_arcmin = 0.05,
                            table = c("mean", "stack", "detection"),
                            release = c("dr2", "dr1"),
-                           verbose = FALSE){
+                           verbose = FALSE) {
 
   base_url <- 'https://catalogs.mast.stsci.edu/api/v0.1/panstarrs'
 
@@ -273,14 +276,7 @@ ps1_crossmatch <- function(ra,
   release <- release[1]
 
   checklegal(table, release)
-
-  attempt::stop_if(
-    length(ra) != length(dec),
-    msg = paste0(
-      "Length of ra [", length(ra), "] ",
-      "is not equal to length of dec [", length(dec), "]"
-    )
-  )
+  validate_radec(ra, dec)
 
   attempt::stop_if(
     length(ra) > 5000,

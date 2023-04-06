@@ -19,6 +19,9 @@
 #' }
 #'
 ps1_image_list <- function(ra, dec, size = 240, filters = "grizy") {
+
+  validate_radec(ra, dec, .length = 1L)
+
   service <- "https://ps1images.stsci.edu/cgi-bin/ps1filenames.py"
 
   url <- paste0(
@@ -30,10 +33,7 @@ ps1_image_list <- function(ra, dec, size = 240, filters = "grizy") {
     "&filters=", filters
     )
 
-  resp <- httr::GET(
-    url,
-    httr::user_agent("panstarrs (https://cran.r-project.org/web/packages/panstarrs/)")
-    )
+  resp <- httr::GET(url, panstarrs_user_agent())
 
   df <- data.table::fread(httr::content(resp, as = 'text'), sep = " ")
 
@@ -68,6 +68,10 @@ ps1_image_list <- function(ra, dec, size = 240, filters = "grizy") {
 #' }
 #'
 ps1_image_url <- function(ra, dec, size = 240, output_size = NULL, filters = "grizy", format = "jpg", color = FALSE) {
+
+  validate_radec(ra, dec, .length = 1L)
+
+
   attempt::stop_if(
     color & format == "fits",
     msg = "color images are available only for jpg or png formats"
