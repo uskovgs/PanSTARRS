@@ -41,12 +41,12 @@ df_cone <- ps1_cone(
   release = 'dr2'
 )
 
-# or if you prefer data.table approach
-df_cone[, .SD, .SDcols = grepl('[grizy]MeanPSFMag$', names(df_cone))]
-
-## tidyverse approach
+# tidyverse approach
 df_cone |>
   dplyr::select(dplyr::matches('[grizy]MeanPSFMag$'))
+
+# or if you prefer data.table approach
+df_cone[, .SD, .SDcols = grepl('[grizy]MeanPSFMag$', names(df_cone))]
 ```
 
 ### 3. Or use crossmatch
