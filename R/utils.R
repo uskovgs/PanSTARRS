@@ -15,7 +15,7 @@ panstarrs_user_agent <- function() {
 #' @param .length length of coordinates. If `NULL` (default) then coordinates
 #' can be any size.
 #'
-#' @return
+#' @return If the check is successful, the function returns nothing.
 #'
 validate_radec <- function(ra, dec, .length = NULL) {
 
