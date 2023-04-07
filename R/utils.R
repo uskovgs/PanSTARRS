@@ -19,29 +19,19 @@ panstarrs_user_agent <- function() {
 #'
 validate_radec <- function(ra, dec, .length = NULL) {
 
-  attempt::stop_if(
-    length(ra) != length(dec),
-    msg = paste0(
+  if (length(ra) != length(dec))
+    stop(paste0(
       "Length of ra [", length(ra), "] ",
       "is not equal to length of dec [", length(dec), "]"
+      )
     )
-  )
 
 
-  if (! is.null(.length)) {
-    attempt::stop_if(
-      length(ra) != .length,
-      msg = paste0("The length of the coordinates array must be", .length)
-    )
-  }
+  if (! is.null(.length) && length(ra) != .length)
+    stop(paste0("The length of the coordinates array must be", .length))
 
-  attempt::stop_if_any(
-    ra < 0 | ra > 360,
-    msg = "The `ra` must be in the range [0, 360]"
-  )
-  attempt::stop_if_any(
-    dec < -90 | dec > 90,
-    msg = "The `dec` must be in the range [-90, 90]"
-  )
+  checkmate::assert_numeric(ra, lower = 0, upper = 360, min.len = 0L)
+  checkmate::assert_numeric(dec, lower = -90, upper = 90, min.len = 0L)
+
 }
 

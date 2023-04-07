@@ -2,7 +2,7 @@
 title: "How to work with catalogs"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{PS1 Cat examples}
+  %\VignetteIndexEntry{How to work with catalogs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

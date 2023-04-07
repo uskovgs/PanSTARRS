@@ -9,26 +9,14 @@
 checklegal <- function(table, release) {
   releaselist <- c("dr1", "dr2")
 
+  checkmate::assert_choice(release, releaselist)
 
-  attempt::stop_if_not(
-    release %in% releaselist,
-    msg = paste0("Bad value for release (must be one of ",
-                 paste(releaselist, collapse = ", "),")"
-                 )
-  )
   if (release == "dr1") {
     tablelist <- c("mean", "stack")
   } else {
     tablelist <- c("mean", "stack", "forced_mean", "detection")
   }
-
-  attempt::stop_if_not(
-    table %in% tablelist,
-    msg = paste0(
-      "Bad value for table (for ", release, " must be one of ",
-      paste(tablelist, collapse = ", "), ")"
-    )
-  )
+  checkmate::assert_choice(table, tablelist)
 }
 
 #' Get preloaded metadata
@@ -146,39 +134,30 @@ ps1_search <- function(table = c("mean", "stack", "detection"),
 
 
   data <-  list(...)
-  attempt::stop_if(length(data) == 0,
-                   msg = "You must specify some parameters for search")
-
-
+  checkmate::assert_list(data, min.len = 1L, .var.name = "...")
 
   baseurl <- "https://catalogs.mast.stsci.edu/api/v0.1/panstarrs"
   url <- paste0(baseurl, "/", release, "/", table, ".json")
 
   metadata <- get_metadata(table, release)
 
-  if(!is.null(columns)){
+  if (! is.null(columns)) {
 
     # Check that column values are legal
     cols_meta <- tolower(metadata$name)
     columns2 <- tolower(columns)
     badcols <- columns[which(!(columns2 %in% cols_meta))]
 
-    attempt::message_if(
-      length(badcols) != 0,
-      msg = paste0(
-        "Some columns not found in table: ",
-        paste(badcols, collapse = ", ")
+    if (length(badcols) != 0L)
+      message(paste0("Some columns not found in table: ",
+                     paste(badcols, collapse = ", ")
+             )
       )
-    )
 
     data['columns'] <- jsonlite::toJSON(columns)
   }
 
-  resp <- httr::GET(
-    url,
-    query = data,
-    panstarrs_user_agent()
-  )
+  resp <- httr::GET(url, query = data, panstarrs_user_agent())
 
   if(verbose)
     print(resp)
@@ -278,13 +257,8 @@ ps1_crossmatch <- function(ra,
   checklegal(table, release)
   validate_radec(ra, dec)
 
-  attempt::stop_if(
-    length(ra) > 5000,
-    msg = paste0(
-      "The length of the sources [", length(ra), "] ",
-      "is more tha 5000 items."
-      )
-    )
+  # API restriction
+  checkmate::assert_vector(ra, max.len = 5000L, min.len = 1L)
 
   sources_json <- jsonlite::toJSON(data.frame(ra = ra, dec = dec))
 
@@ -344,17 +318,12 @@ ps1_resolve <- function(target_names, verbose = FALSE) {
   base_url <- 'https://catalogs.mast.stsci.edu/api/v0.1/panstarrs'
 
   checklegal(table, release)
+
+
+  # API restriction
+  checkmate::assert_vector(target_names, max.len = 5000L, min.len = 1L)
+
   # Create json list
-
-  attempt::stop_if(
-    length(target_names) > 500,
-    msg = paste0(
-      "The length of the `target_names` [", length(target_names), "] ",
-      "is more than 5000 items."
-      )
-  )
-
-
   sources_df <- data.frame(
     target = target_names,
     search_id = 0:(length(target_names)-1)
@@ -366,12 +335,11 @@ ps1_resolve <- function(target_names, verbose = FALSE) {
     url = paste0(base_url, "/", release, "/", table, "/crossmatch/"),
     query = list(
       resolve = TRUE,
-      target_name = 'target',
+      target_name = "target",
       targets = sources_json
     ),
-    panstarrs_user_agent(),
-    httr::verbose()
-    )
+    panstarrs_user_agent()
+  )
 
   httr::stop_for_status(resp)
 
@@ -436,12 +404,12 @@ ps1_mast_resolve <- function(name) {
 
   resolvedObject <- httr::content(mastquery)
 
-  coords <- attempt::try_catch(
+  tryCatch(
     resolvedObject$resolvedCoordinate[[1]][c("ra", "decl")],
-    .e = ~message(paste0("Unknown object '", name, "'"))
+    # error = function(e) conditionMessage(e)
+    error =  function(e) message(paste0("Object '", name, "' not found"))
   )
 
-  return(coords)
 }
 
 

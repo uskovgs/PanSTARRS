@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="index.html">panstarrs</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,8 +24,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/PS1_Cat.html">PS1 Cat examples</a>
-    <a class="dropdown-item" href="articles/PS1_Images.html">PS1 Images examples</a>
+    <a class="dropdown-item" href="articles/PS1_Cat.html">How to work with catalogs</a>
+    <a class="dropdown-item" href="articles/PS1_Images.html">How to work with images</a>
   </div>
 </li>
 <li class="nav-item">
@@ -54,29 +54,26 @@
 <div id="todo" class="section level1">
 
 <p><strong>v 0.2.0</strong></p>
-<ol style="list-style-type: decimal"><li><p><a href="https://cran.r-project.org/web/checks/check_results_panstarrs.html" class="external-link uri">https://cran.r-project.org/web/checks/check_results_panstarrs.html</a></p></li>
-<li><p>add bigint_as_char = TRUE to jsonlite::fromJSON</p></li>
-<li><p>+save metadata in cache</p></li>
-<li><p>httr USERAGENT “R package panstarrs”</p></li>
-<li><p>convert data types automatically (see gaia package)</p></li>
-<li>
-<p>add tests:</p>
-<ul><li>check cached metadata with web version</li>
-</ul></li>
-<li><p>attempt -&gt; checkmate ?</p></li>
-<li><p>stringr -&gt; stringi</p></li>
-<li>
-<p>убрать rlang, rcurl, dplyr, magrittr (glue?)</p>
-<ul><li>dplyr -&gt; data.table</li>
-</ul></li>
-<li>
-<p>github поставить tag версии</p>
-<ul class="task-list"><li><p><input type="checkbox" disabled>add “forced_mean”</p></li>
-<li><p><input type="checkbox" disabled>Correct int64 type</p></li>
-<li><p><input type="checkbox" disabled>more data.table functions</p></li>
-<li><p><input type="checkbox" disabled>removed RCurl dependencies</p></li>
-</ul></li>
-</ol></div>
+<ul class="task-list"><li><p><input type="checkbox" checked>add “forced_mean”</p></li>
+<li><p><input type="checkbox" checked>add bigint_as_char = TRUE to jsonlite::fromJSON</p></li>
+<li><p><input type="checkbox">convert data types automatically (see gaia package)</p></li>
+<li><p><input type="checkbox">Correct int64 type</p></li>
+<li><p><input type="checkbox" checked>more data.table functions</p></li>
+<li><p><input type="checkbox" checked>removed RCurl dependencies</p></li>
+<li><p><input type="checkbox" checked>httr USERAGENT “R package panstarrs”</p></li>
+<li><p><input type="checkbox">ra dec correct range check</p></li>
+<li><p><input type="checkbox" checked>убрать rlang, rcurl, dplyr, magrittr, stringr</p></li>
+<li><p><input type="checkbox" checked>dplyr -&gt; data.table</p></li>
+<li><p><input type="checkbox" checked>save metadata in cache</p></li>
+<li><p><input type="checkbox" checked>test: check cached metadata with web version</p></li>
+<li><p><input type="checkbox">github поставить tag версии</p></li>
+<li><p><input type="checkbox"><a href="https://cran.r-project.org/web/checks/check_results_panstarrs.html" class="external-link uri">https://cran.r-project.org/web/checks/check_results_panstarrs.html</a></p></li>
+<li><p><input type="checkbox">Может из Vignettes убрать dplyr, magrittr?</p></li>
+<li><p><input type="checkbox">correct r version</p></li>
+<li><p><input type="checkbox">Fix pkgdown website</p></li>
+<li><p><input type="checkbox">remove data.table?</p></li>
+<li><p><input type="checkbox">remove glue?</p></li>
+</ul></div>
 
   </main></div>
 

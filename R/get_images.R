@@ -71,16 +71,10 @@ ps1_image_url <- function(ra, dec, size = 240, output_size = NULL, filters = "gr
 
   validate_radec(ra, dec, .length = 1L)
 
+  checkmate::assert_choice(format, c("jpg", "png", "fits"))
 
-  attempt::stop_if(
-    color & format == "fits",
-    msg = "color images are available only for jpg or png formats"
-  )
-
-  attempt::stop_if_not(
-    format %in% c("jpg", "png", "fits"),
-    msg = "format must be one of jpg, png, fits"
-  )
+  if (color && format == "fits")
+    stop("color images are available only for jpg or png formats")
 
   table <- ps1_image_list(ra, dec, size = size, filters = filters)
   url <- paste0(
@@ -133,17 +127,17 @@ ps1_image_url <- function(ra, dec, size = 240, output_size = NULL, filters = "gr
 #' ps1_image_gray(ra = 83.633210, dec = 22.014460, size = 1280, filter = "i")
 #' }
 ps1_image_gray <- function(ra, dec, size = 240, output_size = NULL, filter = "g", format = "jpg") {
-  attempt::stop_if_not(
-    format %in% c("jpg", "png"),
-    msg = "format must be jpg or png"
-  )
+  checkmate::assert_choice(format, c("jpg", "png"))
+  checkmate::assert_choice(filter, c("g", "r", "i", "z", "y"))
 
-  attempt::stop_if_not(
-    filter %in% c("g", "r", "i", "z", "y"),
-    msg = "filter must be one of grizy"
+  url <- ps1_image_url(
+    ra,
+    dec,
+    size = size,
+    filters = filter,
+    output_size = output_size,
+    format = format
   )
-
-  url <- ps1_image_url(ra, dec, size = size, filters = filter, output_size = output_size, format = format)
 
   return(url[1])
 }
@@ -167,10 +161,7 @@ ps1_image_gray <- function(ra, dec, size = 240, output_size = NULL, filter = "g"
 #' ps1_image_color(ra = 83.633210, dec = 22.014460, size = 1280, filters="grz")
 #' }
 ps1_image_color <- function(ra, dec, size = 240, output_size = NULL, filters = "grizy", format = "jpg") {
-  attempt::stop_if_not(
-    format %in% c("jpg", "png"),
-    msg = "format must be jpg or png"
-  )
+  checkmate::assert_choice(format, c("jpg", "png"))
 
   url <- ps1_image_url(ra, dec,
     size = size,
