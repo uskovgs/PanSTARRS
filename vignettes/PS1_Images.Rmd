@@ -2,7 +2,7 @@
 title: "How to work with images"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"How to work with images}
+  %\VignetteIndexEntry{How to work with images}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -1,10 +1,10 @@
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/panstarrs)](https://CRAN.R-project.org/package=panstarrs)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-<!-- badges: end -->
-  
-# panstarrs
 
+[![CRAN status](https://www.r-pkg.org/badges/version/panstarrs)](https://CRAN.R-project.org/package=panstarrs) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+
+<!-- badges: end -->
+
+# panstarrs
 
 The goal of panstarrs package is to access [PanSTARRS](https://panstarrs.stsci.edu/) data archive.
 
@@ -18,6 +18,7 @@ install.packages("panstarrs")
 ```
 
 ## Example
+
 ``` r
  library(panstarrs)
  library(magrittr)
