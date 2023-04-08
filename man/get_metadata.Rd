@@ -17,3 +17,4 @@ A data frame
 \description{
 Get preloaded metadata
 }
+\keyword{internal}

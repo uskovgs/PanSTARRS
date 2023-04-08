@@ -20,3 +20,4 @@ If the check is successful, the function returns nothing.
 \description{
 Check ra, dec params
 }
+\keyword{internal}

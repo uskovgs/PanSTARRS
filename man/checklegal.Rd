@@ -14,3 +14,4 @@ checklegal(table, release)
 \description{
 Checks if this combination of table and release is acceptable.
 }
+\keyword{internal}

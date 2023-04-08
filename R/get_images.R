@@ -33,7 +33,33 @@ ps1_image_list <- function(ra, dec, size = 240, filters = "grizy") {
     "&filters=", filters
     )
 
-  resp <- httr::GET(url, panstarrs_user_agent())
+  if (!curl::has_internet()) {
+    message("No internet connection.")
+    return(invisible(NULL))
+  }
+
+  resp <- tryCatch(
+    httr::RETRY(
+      "GET",
+      url,
+      panstarrs_user_agent(),
+      times = 3,
+      pause_base = 1.3
+    ),
+    error = function(e) conditionMessage(e),
+    warning = function(w) conditionMessage(w)
+  )
+
+  if (! inherits(resp, "response")) {
+    message(resp)
+    return(invisible(NULL))
+  }
+
+  # Then stop if status > 400
+  if (httr::http_error(resp)) {
+    httr::message_for_status(resp)
+    return(invisible(NULL))
+  }
 
   df <- data.table::fread(httr::content(resp, as = 'text'), sep = " ")
 

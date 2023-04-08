@@ -49,33 +49,7 @@ df_cone |>
 df_cone[, .SD, .SDcols = grepl('[grizy]MeanPSFMag$', names(df_cone))]
 ```
 
-### 3. Or use crossmatch
-```{r}
-df_cross <- ps1_crossmatch(
-  coords$ra,
-  coords$decl,
-  r_arcmin = 0.01,
-  table = "mean",
-  release = "dr2"
-)
 
-df_cross |> 
-  dplyr::select(dplyr::matches('[grizy]MeanPSFMag$'))
-```
-# Example 2
-
-## Cross-matching with PS1 catalog
-
-```{r}
-ps1_crossmatch(
-  c(268.70342, 168.87258), 
-  c(71.54292, 60.75153),
-  table= 'mean',
-  release = 'dr2'
-) |>
-  dplyr::arrange(`_searchID_`, dstArcSec) |>
-  dplyr::select(1:4, 7)
-```
 
 
 

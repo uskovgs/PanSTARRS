@@ -5,6 +5,7 @@
 #' @param table "mean", "stack", "forced_mean", "detection"
 #' @param release "dr2", "dr1"
 #'
+#' @keywords internal
 #'
 checklegal <- function(table, release) {
   releaselist <- c("dr1", "dr2")
@@ -27,6 +28,8 @@ checklegal <- function(table, release) {
 #'
 #' @return A data frame
 #'
+#' @keywords internal
+#'
 get_metadata <- function(table, release) {
   return(.meta[[paste0(table, "_", release)]])
 }
@@ -35,11 +38,15 @@ get_metadata <- function(table, release) {
 #'
 #' Helper function.
 #'
+#'
 #' @param dt data.table or data.frame
 #' @param cols which cols convert
 #' @param types "char", "long", "unsignedByte", "int", "short", "double", "float"
 #'
 #' @return a data frame with correct data types
+#'
+#' @keywords internal
+#'
 #'
 convert_types <- function(dt, cols, types) {
 
@@ -58,6 +65,7 @@ convert_types <- function(dt, cols, types) {
   return(dt)
 }
 
+
 #' Metadata from PS1
 #'
 #' Return metadata for the specified catalog and table
@@ -66,7 +74,7 @@ convert_types <- function(dt, cols, types) {
 #' @param release "dr1" or "dr2"(default)
 #'
 #' @return Returns data.frame with columns: name, type, description
-#'
+#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -81,13 +89,18 @@ ps1_metadata <- function(table = "mean", release = "dr2") {
 
   checklegal(table, release)
 
+  if (!curl::has_internet()) {
+    message("No internet connection.")
+    return(invisible(NULL))
+  }
+
   resp <- tryCatch(
     httr::RETRY(
       "GET",
       paste(baseurl, release[1], table[1], "metadata", sep = "/"),
       panstarrs_user_agent(),
       times = 3,
-      pause_base = 2
+      pause_base = 1.3
     ),
     error = function(e) conditionMessage(e),
     warning = function(w) conditionMessage(w)
@@ -170,12 +183,38 @@ ps1_search <- function(table = c("mean", "stack", "detection", "forced_mean"),
     data['columns'] <- jsonlite::toJSON(columns)
   }
 
-  resp <- httr::GET(url, query = data, panstarrs_user_agent())
+  if (!curl::has_internet()) {
+    message("No internet connection.")
+    return(invisible(NULL))
+  }
+
+  resp <- tryCatch(
+    httr::RETRY(
+      "GET",
+      url,
+      query = data,
+      panstarrs_user_agent(),
+      times = 3,
+      pause_base = 1.3
+    ),
+    error = function(e) conditionMessage(e),
+    warning = function(w) conditionMessage(w)
+  )
+
 
   if(verbose)
     print(resp)
 
-  httr::stop_for_status(resp)
+  if (! inherits(resp, "response")) {
+    message(resp)
+    return(invisible(NULL))
+  }
+
+  # Then stop if status > 400
+  if (httr::http_error(resp)) {
+    httr::message_for_status(resp)
+    return(invisible(NULL))
+  }
 
   cont <- jsonlite::fromJSON(
     txt = httr::content(resp, as = 'text', encoding = "UTF-8"),
@@ -269,28 +308,52 @@ ps1_crossmatch <- function(ra,
 
   checklegal(table, release)
   validate_radec(ra, dec)
+  url <- paste0(base_url, "/", release, "/", table, "/crossmatch/")
 
   # API restriction
   checkmate::assert_vector(ra, max.len = 5000L, min.len = 1L)
 
   sources_json <- jsonlite::toJSON(data.frame(ra = ra, dec = dec))
 
-  resp <- httr::POST(
-    url = paste0(base_url, "/", release, "/", table, "/crossmatch/"),
-    query = list(
-      targets = sources_json,
-      resolve = FALSE,
-      radius = r_arcmin/60,
-      ra_name = "ra",
-      dec_name = "dec"
-    ),
-    panstarrs_user_agent()
-    )
+  data <- list(
+    targets = sources_json,
+    resolve = FALSE,
+    radius = r_arcmin/60,
+    ra_name = "ra",
+    dec_name = "dec"
+  )
 
-  httr::stop_for_status(resp)
+  if (!curl::has_internet()) {
+    message("No internet connection.")
+    return(invisible(NULL))
+  }
+
+  resp <- tryCatch(
+    httr::RETRY(
+      "POST",
+      url,
+      query = data,
+      panstarrs_user_agent(),
+      times = 3,
+      pause_base = 1.3
+    ),
+    error = function(e) conditionMessage(e),
+    warning = function(w) conditionMessage(w)
+  )
 
   if(verbose)
     print(resp)
+
+  if (! inherits(resp, "response")) {
+    message(resp)
+    return(invisible(NULL))
+  }
+
+  # Then stop if status > 400
+  if (httr::http_error(resp)) {
+    httr::message_for_status(resp)
+    return(invisible(NULL))
+  }
 
   cont <- jsonlite::fromJSON(
     httr::content(resp, as = 'text', encoding = "UTF-8"),
@@ -331,6 +394,7 @@ ps1_resolve <- function(target_names, verbose = FALSE) {
   base_url <- 'https://catalogs.mast.stsci.edu/api/v0.1/panstarrs'
 
   checklegal(table, release)
+  url <- paste0(base_url, "/", release, "/", table, "/crossmatch/")
 
 
   # API restriction
@@ -344,20 +408,43 @@ ps1_resolve <- function(target_names, verbose = FALSE) {
 
   sources_json <- jsonlite::toJSON(subset(sources_df, select = "target"))
 
-  resp <- httr::POST(
-    url = paste0(base_url, "/", release, "/", table, "/crossmatch/"),
-    query = list(
-      resolve = TRUE,
-      target_name = "target",
-      targets = sources_json
-    ),
-    panstarrs_user_agent()
+  data <- list(
+    resolve = TRUE,
+    target_name = "target",
+    targets = sources_json
   )
 
-  httr::stop_for_status(resp)
+  if (!curl::has_internet()) {
+    message("No internet connection.")
+    return(invisible(NULL))
+  }
+
+  resp <- tryCatch(
+    httr::RETRY(
+      "POST",
+      url,
+      query = data,
+      panstarrs_user_agent(),
+      times = 3,
+      pause_base = 1.3
+    ),
+    error = function(e) conditionMessage(e),
+    warning = function(w) conditionMessage(w)
+  )
 
   if(verbose)
     print(resp)
+
+  if (! inherits(resp, "response")) {
+    message(resp)
+    return(invisible(NULL))
+  }
+
+  # Then stop if status > 400
+  if (httr::http_error(resp)) {
+    httr::message_for_status(resp)
+    return(invisible(NULL))
+  }
 
   cont <- jsonlite::fromJSON(
     httr::content(resp, as = 'text', encoding = "UTF-8"),
@@ -378,15 +465,29 @@ ps1_resolve <- function(target_names, verbose = FALSE) {
 #'
 #' @return Returns response
 #'
+#' @keywords internal
+#'
 ps1_mast_query <- function(request){
 
   requestString <- jsonlite::toJSON(request, auto_unbox = TRUE)
 
-  resp <- httr::GET(
-    url = "https://mast.stsci.edu/api/v0/invoke",
-    query = list(request = requestString),
-    panstarrs_user_agent(),
-    encode = "form"
+  if (!curl::has_internet()) {
+    message("No internet connection.")
+    return(invisible(NULL))
+  }
+
+  resp <- tryCatch(
+    httr::RETRY(
+      "GET",
+      url = "https://mast.stsci.edu/api/v0/invoke",
+      query = list(request = requestString),
+      encode = "form",
+      panstarrs_user_agent(),
+      times = 3,
+      pause_base = 1.3
+    ),
+    error = function(e) conditionMessage(e),
+    warning = function(w) conditionMessage(w)
   )
 
   return(resp)
@@ -412,10 +513,20 @@ ps1_mast_resolve <- function(name) {
     )
   )
 
-  mastquery <- ps1_mast_query(resolverRequest)
-  httr::stop_for_status(mastquery)
+  resp <- ps1_mast_query(resolverRequest)
 
-  resolvedObject <- httr::content(mastquery)
+  if (! inherits(resp, "response")) {
+    message(resp)
+    return(invisible(NULL))
+  }
+
+  # Then stop if status > 400
+  if (httr::http_error(resp)) {
+    httr::message_for_status(resp)
+    return(invisible(NULL))
+  }
+
+  resolvedObject <- httr::content(resp)
 
   tryCatch(
     resolvedObject$resolvedCoordinate[[1]][c("ra", "decl")],

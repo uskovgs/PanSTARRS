@@ -5,7 +5,7 @@
 \title{Do a general search of the PS1 catalog (possibly without ra/dec/radius)}
 \usage{
 ps1_search(
-  table = c("mean", "stack", "detection"),
+  table = c("mean", "stack", "detection", "forced_mean"),
   release = c("dr2", "dr1"),
   columns = NULL,
   verbose = FALSE,
@@ -13,7 +13,7 @@ ps1_search(
 )
 }
 \arguments{
-\item{table}{"mean", "stack", or "detection"}
+\item{table}{"mean", "stack", "detection" or "forced_mean"}
 
 \item{release}{"dr1" or "dr2"(default)}
 

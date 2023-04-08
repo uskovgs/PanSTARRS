@@ -19,3 +19,4 @@ a data frame with correct data types
 \description{
 Helper function.
 }
+\keyword{internal}

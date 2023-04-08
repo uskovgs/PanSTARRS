@@ -8,7 +8,7 @@ ps1_crossmatch(
   ra,
   dec,
   r_arcmin = 0.05,
-  table = c("mean", "stack", "detection"),
+  table = c("mean", "stack", "detection", "forced_mean"),
   release = c("dr2", "dr1"),
   verbose = FALSE
 )
@@ -20,7 +20,7 @@ ps1_crossmatch(
 
 \item{r_arcmin}{(arcmins) Search radius (<= 30 arcmins)}
 
-\item{table}{"mean"(default), "stack", or "detection"}
+\item{table}{"mean"(default), "stack", "detection", "forced_mean"}
 
 \item{release}{"dr1" or "dr2"(default)}
 

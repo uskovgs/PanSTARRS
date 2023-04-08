@@ -17,6 +17,8 @@ panstarrs_user_agent <- function() {
 #'
 #' @return If the check is successful, the function returns nothing.
 #'
+#' @keywords internal
+#'
 validate_radec <- function(ra, dec, .length = NULL) {
 
   if (length(ra) != length(dec))
@@ -34,4 +36,9 @@ validate_radec <- function(ra, dec, .length = NULL) {
   checkmate::assert_numeric(dec, lower = -90, upper = 90, min.len = 0L)
 
 }
+
+
+
+
+
 

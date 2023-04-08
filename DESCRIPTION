@@ -1,6 +1,6 @@
 Package: panstarrs
 Title: Interface to the Pan-STARRS API
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: 
     person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"),
     comment = c(ORCID = "0000-0002-0274-1350"))
@@ -17,11 +17,12 @@ BugReports: https://github.com/uskovgs/PanSTARRS/issues
 Depends: 
     R (>= 3.5)
 Imports: 
-    attempt,
     bit64,
+    checkmate,
     data.table,
     httr,
-    jsonlite
+    jsonlite,
+    curl
 Suggests: 
     celestial,
     dplyr,

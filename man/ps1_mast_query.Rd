@@ -15,3 +15,4 @@ Returns response
 \description{
 Perform a MAST query.
 }
+\keyword{internal}
