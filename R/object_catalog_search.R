@@ -81,26 +81,39 @@ ps1_metadata <- function(table = "mean", release = "dr2") {
 
   checklegal(table, release)
 
-  resp <- httr::RETRY(
-    "GET",
-    paste(baseurl, release[1], table[1], "metadata", sep = "/"),
-    panstarrs_user_agent(),
-    times = 3,
-    pause_base = 2
+  resp <- tryCatch(
+    httr::RETRY(
+      "GET",
+      paste(baseurl, release[1], table[1], "metadata", sep = "/"),
+      panstarrs_user_agent(),
+      times = 3,
+      pause_base = 2
+    ),
+    error = function(e) conditionMessage(e),
+    warning = function(w) conditionMessage(w)
   )
 
-  httr::stop_for_status(resp)
+  if (! inherits(resp, "response")) {
+    message(resp)
+    return(invisible(NULL))
+  }
+
+  # Then stop if status > 400
+  if (httr::http_error(resp)) {
+    httr::message_for_status(resp)
+    return(invisible(NULL))
+  }
 
   meta_info <- jsonlite::fromJSON(
-    httr::content(resp, as = "text", encoding = "UTF-8")
-  )
+      httr::content(resp, as = "text", encoding = "UTF-8")
+    )
   return(meta_info[, c("name", "type", "description")])
 }
 
 
 #' Do a general search of the PS1 catalog (possibly without ra/dec/radius)
 #'
-#' @param table "mean", "stack", or "detection"
+#' @param table "mean", "stack", "detection" or "forced_mean"
 #' @param release "dr1" or "dr2"(default)
 #' @param columns list of column names to include (NULL means use defaults)
 #' @param verbose print info about request
@@ -122,7 +135,7 @@ ps1_metadata <- function(table = "mean", release = "dr2") {
 #' objid = '190361393344112894',
 #' columns = c('objName', 'raMean', 'decMean', 'rMeanPSFMag'))
 #' }
-ps1_search <- function(table = c("mean", "stack", "detection"),
+ps1_search <- function(table = c("mean", "stack", "detection", "forced_mean"),
                        release = c("dr2", "dr1"),
                        columns = NULL,
                        verbose = FALSE,
@@ -188,7 +201,7 @@ ps1_search <- function(table = c("mean", "stack", "detection"),
 #' @param ra (degrees) J2000 Right Ascension
 #' @param dec (degrees) J2000 Declination
 #' @param r_arcmin (arcmins) Search radius (<= 30 arcmins)
-#' @param table "mean"(default), "stack", or "detection"
+#' @param table "mean"(default), "stack", "detection" or "forced_mean"
 #' @param release "dr1" or "dr2"(default)
 #' @param columns list of column names to include (NULL means use defaults)
 #' @param verbose print info about request
@@ -204,7 +217,7 @@ ps1_search <- function(table = c("mean", "stack", "detection"),
 ps1_cone <- function(ra,
                      dec,
                      r_arcmin = 0.05,
-                     table = c("mean", "stack", "detection"),
+                     table = c("mean", "stack", "detection", "forced_mean"),
                      release = c("dr2", "dr1"),
                      columns = NULL,
                      verbose = FALSE,
@@ -230,7 +243,7 @@ ps1_cone <- function(ra,
 #' @param ra (degrees) numeric vector of J2000 Right Ascension
 #' @param dec (degrees) numeric vector of J2000 Declination
 #' @param r_arcmin (arcmins) Search radius (<= 30 arcmins)
-#' @param table "mean"(default), "stack", or "detection"
+#' @param table "mean"(default), "stack", "detection", "forced_mean"
 #' @param release "dr1" or "dr2"(default)
 #' @param verbose print info about request
 #'
@@ -245,7 +258,7 @@ ps1_cone <- function(ra,
 ps1_crossmatch <- function(ra,
                            dec,
                            r_arcmin = 0.05,
-                           table = c("mean", "stack", "detection"),
+                           table = c("mean", "stack", "detection", "forced_mean"),
                            release = c("dr2", "dr1"),
                            verbose = FALSE) {
 
