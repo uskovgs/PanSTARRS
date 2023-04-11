@@ -3,7 +3,7 @@
 ## New features
 
 -   Functions `ps1_search(), ps1_cone(), ps1_crossmatch()` now support *Forced Mean* for DR2 release.
--   If there is no internet connection or the server API does not work, then \`invisible(NULL)\` is returned and an error message appears.
+-   If there is no internet connection or the server API does not work, then `invisible(NULL)` is returned and an error message appears.
 
 ## Bug fixes and minor changes
 
@@ -11,7 +11,7 @@
 
 -   Some dependencies have been removed: attempt, dplyr, glue, magrittr, purrr, Rcurl, readr, rlang, stringr.
 
--   HTTP User Agent "panstarrs/{version} ([https://cran.r-project.org/web/packages/panstarrs/)](https://cran.r-project.org/web/packages/panstarrs/))" has been added to GET/POST requests.
+-   HTTP User Agent "panstarrs/{version} (<https://CRAN.R-project.org/package=panstarrs>)" has been added to GET/POST requests.
 
 -   Vignettes have been updated.
 

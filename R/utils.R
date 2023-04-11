@@ -3,7 +3,7 @@
 panstarrs_user_agent <- function() {
   httr::user_agent(paste0(
     "panstarrs/", utils::packageVersion("panstarrs"), " ",
-    "(https://cran.r-project.org/web/packages/panstarrs/)", " ",
+    "(https://CRAN.R-project.org/package=panstarrs)", " ",
     "httr/", utils::packageVersion("httr")
   ))
 }

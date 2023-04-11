@@ -3,7 +3,7 @@ Title: Interface to the Pan-STARRS API
 Version: 0.2.0
 Authors@R: 
     person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"),
-    comment = c(ORCID = "0000-0002-0274-1350"))
+           comment = c(ORCID = "0000-0002-0274-1350"))
 Description: An interface to the API for 'Pan-STARRS1', a data archive of
     the PS1 wide-field astronomical survey.  The package allows access to
     the PS1 catalog and to the PS1 images.  (see
@@ -19,10 +19,10 @@ Depends:
 Imports: 
     bit64,
     checkmate,
+    curl,
     data.table,
     httr,
-    jsonlite,
-    curl
+    jsonlite
 Suggests: 
     celestial,
     dplyr,

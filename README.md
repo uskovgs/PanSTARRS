@@ -6,7 +6,7 @@
 
 # panstarrs
 
-The goal of panstarrs package is to access [PanSTARRS](https://panstarrs.stsci.edu/) data archive.
+The goal of panstarrs package is to access [PanSTARRS](https://outerspace.stsci.edu/display/PANSTARRS/) data archive.
 
 ## Installation
 
