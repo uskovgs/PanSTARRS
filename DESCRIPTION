@@ -1,6 +1,6 @@
 Package: panstarrs
 Title: Interface to the Pan-STARRS API
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-0274-1350"))
@@ -24,11 +24,8 @@ Imports:
     httr,
     jsonlite
 Suggests: 
-    celestial,
     dplyr,
-    FITSio,
     knitr,
-    magicaxis,
     magick,
     rmarkdown,
     testthat (>= 3.0.0)

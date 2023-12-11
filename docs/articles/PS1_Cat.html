@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">panstarrs</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,10 +112,10 @@ source.<a class="anchor" aria-label="anchor" href="#get-meanpsfmag-in-the-grizy-
 <code class="sourceCode R"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ps1_mast_resolve.html">ps1_mast_resolve</a></span><span class="op">(</span><span class="st">'KQ Uma'</span><span class="op">)</span></span>
 <span><span class="va">coords</span></span>
 <span><span class="co">#&gt; $ra</span></span>
-<span><span class="co">#&gt; [1] 139.3343</span></span>
+<span><span class="co">#&gt; [1] 139.3345</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $decl</span></span>
-<span><span class="co">#&gt; [1] 68.63514</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 68.63509</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="search-sources-in-the-circle-around-the-kq-position">2. Search sources in the circle around the KQ position<a class="anchor" aria-label="anchor" href="#search-sources-in-the-circle-around-the-kq-position"></a>
@@ -133,11 +133,13 @@ source.<a class="anchor" aria-label="anchor" href="#get-meanpsfmag-in-the-grizy-
 <span><span class="va">df_cone</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">matches</a></span><span class="op">(</span><span class="st">'[grizy]MeanPSFMag$'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    gMeanPSFMag rMeanPSFMag iMeanPSFMag zMeanPSFMag yMeanPSFMag</span></span>
+<span><span class="co">#&gt;          &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:     15.0402      14.553     14.2109     14.2814     14.3041</span></span>
 <span></span>
 <span><span class="co"># or if you prefer data.table approach</span></span>
 <span><span class="va">df_cone</span><span class="op">[</span>, <span class="va">.SD</span>, .SDcols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">'[grizy]MeanPSFMag$'</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df_cone</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;    gMeanPSFMag rMeanPSFMag iMeanPSFMag zMeanPSFMag yMeanPSFMag</span></span>
+<span><span class="co">#&gt;          &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:     15.0402      14.553     14.2109     14.2814     14.3041</span></span></code></pre></div>
 </div>
 </div>

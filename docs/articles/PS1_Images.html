@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">panstarrs</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,8 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://uskovgs.github.io/PanSTARRS/" class="external-link">panstarrs</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/magick/" class="external-link">magick</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Linking to ImageMagick 6.9.12.3</span></span>
+<span><span class="co">#&gt; Warning: package 'magick' was built under R version 4.3.1</span></span>
+<span><span class="co">#&gt; Linking to ImageMagick 6.9.12.93</span></span>
 <span><span class="co">#&gt; Enabled features: cairo, fontconfig, freetype, heic, lcms, pango, raw, rsvg, webp</span></span>
 <span><span class="co">#&gt; Disabled features: fftw, ghostscript, x11</span></span></code></pre></div>
 <div class="section level2">
@@ -105,134 +106,6 @@
 <span>  <span class="fu">magick</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">image_read</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">magick</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/magick/reference/transform.html" class="external-link">image_resize</a></span><span class="op">(</span><span class="st">"400x400"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="PS1_Images_files/figure-html/unnamed-chunk-2-1.png" width="200"></p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="example-2">Example 2<a class="anchor" aria-label="anchor" href="#example-2"></a>
-</h2>
-<div class="section level3">
-<h3 id="making-guidance-picture">Making guidance picture<a class="anchor" aria-label="anchor" href="#making-guidance-picture"></a>
-</h3>
-<div class="section level4">
-<h4 id="get-coords-of-the-kq-uma">1. Get coords of the KQ Uma<a class="anchor" aria-label="anchor" href="#get-coords-of-the-kq-uma"></a>
-</h4>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">coords_uma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ps1_mast_resolve.html">ps1_mast_resolve</a></span><span class="op">(</span><span class="st">'KQ Uma'</span><span class="op">)</span></span>
-<span><span class="va">coords_uma</span></span>
-<span><span class="co">#&gt; $ra</span></span>
-<span><span class="co">#&gt; [1] 139.3343</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $decl</span></span>
-<span><span class="co">#&gt; [1] 68.63514</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">img_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ps1_image_url.html">ps1_image_url</a></span><span class="op">(</span></span>
-<span>  <span class="va">coords_uma</span><span class="op">$</span><span class="va">ra</span>, </span>
-<span>  <span class="va">coords_uma</span><span class="op">$</span><span class="va">dec</span>, </span>
-<span>  size <span class="op">=</span> <span class="fl">1280</span>, </span>
-<span>  filter <span class="op">=</span> <span class="st">"r"</span>, </span>
-<span>  format <span class="op">=</span> <span class="st">"fits"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">fits_obj</span> <span class="op">&lt;-</span> <span class="fu">FITSio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/FITSio/man/readFITS.html" class="external-link">readFITS</a></span><span class="op">(</span><span class="va">img_url</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="fix-header">2. Fix header<a class="anchor" aria-label="anchor" href="#fix-header"></a>
-</h4>
-<p>FITS image headers use the obsolete PC001001, PC001002, etc.,
-keywords for the WCS. We should fix (add some keywords to headers) it to
-plot right using magicaxis package</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fix_header</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">header</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># FITSio --&gt; obj$hdr</span></span>
-<span></span>
-<span>  <span class="va">is_header_ok</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"CD1_1"</span>, <span class="va">header</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">is_header_ok</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">header</span><span class="op">)</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="va">PC001001</span> <span class="op">&lt;-</span> <span class="va">header</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">header</span> <span class="op">==</span> <span class="st">"PC001001"</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="va">CDELT1</span> <span class="op">&lt;-</span> <span class="va">header</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">header</span> <span class="op">==</span> <span class="st">"CDELT1"</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span> <span class="op">|&gt;</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="va">CD1_1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">PC001001</span> <span class="op">*</span> <span class="va">CDELT1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span>fmt <span class="op">=</span> <span class="st">"%.14e"</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="va">CD1_2</span> <span class="op">&lt;-</span> <span class="st">"0"</span></span>
-<span>    <span class="va">CD2_1</span> <span class="op">&lt;-</span> <span class="st">"0"</span></span>
-<span></span>
-<span>    <span class="va">PC002002</span> <span class="op">&lt;-</span> <span class="va">header</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">header</span> <span class="op">==</span> <span class="st">"PC002002"</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="va">CDELT2</span> <span class="op">&lt;-</span> <span class="va">header</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">header</span> <span class="op">==</span> <span class="st">"CDELT2"</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="va">CD2_2</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">PC002002</span> <span class="op">*</span> <span class="va">CDELT2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span>fmt <span class="op">=</span> <span class="st">"%.14e"</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="va">start_i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">header</span> <span class="op">==</span> <span class="st">"CDELT1"</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
-<span>    <span class="va">end_i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">header</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="co"># header1 &lt;- header[1:start_i]</span></span>
-<span>    <span class="co"># header2 &lt;- header[start_i:end_i]</span></span>
-<span></span>
-<span>    <span class="va">header</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>      <span class="va">header</span>,</span>
-<span>      <span class="st">"CD1_1"</span>, <span class="va">CD1_1</span>,</span>
-<span>      <span class="st">"CD1_2"</span>, <span class="va">CD1_2</span>,</span>
-<span>      <span class="st">"CD2_1"</span>, <span class="va">CD2_1</span>,</span>
-<span>      <span class="st">"CD2_2"</span>, <span class="va">CD2_2</span></span>
-<span>    <span class="op">)</span></span>
-<span>    </span>
-<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">header</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="plot-the-image-guidance">Plot the image guidance<a class="anchor" aria-label="anchor" href="#plot-the-image-guidance"></a>
-</h4>
-<p>It is example how to make a guidance plot. You should wrap it in your
-function for best practice.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">oma_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">'oma'</span><span class="op">)</span></span>
-<span><span class="va">mar_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">'mar'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>oma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># Convert source coords_uma from (RA, DEC) to image coords (X,Y)</span></span>
-<span><span class="va">src</span> <span class="op">&lt;-</span> <span class="fu">celestial</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/celestial/man/skyproj.html" class="external-link">radec2xy</a></span><span class="op">(</span></span>
-<span>    RA <span class="op">=</span> <span class="va">coords_uma</span><span class="op">$</span><span class="va">ra</span>,</span>
-<span>    Dec <span class="op">=</span> <span class="va">coords_uma</span><span class="op">$</span><span class="va">dec</span>,</span>
-<span>    header <span class="op">=</span> <span class="fu">fix_header</span><span class="op">(</span><span class="va">fits_obj</span><span class="op">$</span><span class="va">hdr</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot image</span></span>
-<span><span class="fu">magicaxis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/magicaxis/man/magimage.html" class="external-link">magimage</a></span><span class="op">(</span></span>
-<span>    <span class="va">fits_obj</span><span class="op">$</span><span class="va">imDat</span>,</span>
-<span>    asp <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    flip <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>    stretch <span class="op">=</span> <span class="st">'log'</span>,</span>
-<span>    type <span class="op">=</span> <span class="st">'quan'</span>,</span>
-<span>    lo<span class="op">=</span><span class="fl">0.6</span>,</span>
-<span>    hi <span class="op">=</span> <span class="fl">0.99</span>,,</span>
-<span>    grid.lwd <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>    axes<span class="op">=</span><span class="cn">F</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Add compass to image</span></span>
-<span><span class="fu">magicaxis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/magicaxis/man/magimageWCS.html" class="external-link">magimageWCSCompass</a></span><span class="op">(</span>header <span class="op">=</span> <span class="fu">fix_header</span><span class="op">(</span><span class="va">fits_obj</span><span class="op">$</span><span class="va">hdr</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Add red circle around our source </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">src</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span>
-<span>         y <span class="op">=</span> <span class="va">src</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, </span>
-<span>         cex <span class="op">=</span> <span class="fl">2</span>, </span>
-<span>         col <span class="op">=</span> <span class="st">"red"</span>, </span>
-<span>         lwd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Add arrow to point out on our source</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/arrows.html" class="external-link">arrows</a></span><span class="op">(</span>x0 <span class="op">=</span> <span class="va">src</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>         y0 <span class="op">=</span> <span class="va">src</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">50</span>,</span>
-<span>         x1 <span class="op">=</span> <span class="va">src</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span>         y1 <span class="op">=</span> <span class="va">src</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">+</span><span class="fl">2.5</span>,</span>
-<span>         length <span class="op">=</span> <span class="fl">.1</span>,</span>
-<span>         lwd <span class="op">=</span> <span class="fl">1.5</span>,</span>
-<span>         col <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Add text to picture</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">fits_obj</span><span class="op">$</span><span class="va">imDat</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>,</span>
-<span>       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fits_obj</span><span class="op">$</span><span class="va">imDat</span><span class="op">)</span><span class="op">-</span><span class="fl">50</span>,</span>
-<span>       label <span class="op">=</span> <span class="st">'KQ Uma'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="PS1_Images_files/figure-html/unnamed-chunk-6-1.png" width="480"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>oma <span class="op">=</span> <span class="va">oma_old</span>, mar <span class="op">=</span> <span class="va">mar_old</span><span class="op">)</span></span></code></pre></div>
-</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

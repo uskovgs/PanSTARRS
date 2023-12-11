@@ -1,3 +1,9 @@
+# panstarrs 0.2.1
+
+## Bug fixes and minor changes
+
+-   The example with creating guiding pictures was removed due to the unavailability of [magicaxis](https://cran.r-project.org/package=magicaxis) package on CRAN.
+
 # panstarrs 0.2.0
 
 ## New features
