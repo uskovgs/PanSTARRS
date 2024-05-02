@@ -1,6 +1,6 @@
 Package: panstarrs
 Title: Interface to the Pan-STARRS API
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: 
     person("Grigory", "Uskov", , "uskov.russia@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-0274-1350"))
@@ -33,4 +33,4 @@ VignetteBuilder:
     knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
