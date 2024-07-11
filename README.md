@@ -1,6 +1,6 @@
 <!-- badges: start -->
 
-[![CRAN status](https://www.r-pkg.org/badges/version/panstarrs)](https://CRAN.R-project.org/package=panstarrs) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![CRAN status](https://www.r-pkg.org/badges/version/panstarrs)](https://CRAN.R-project.org/package=panstarrs) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable) [![CRAN status](https://www.r-pkg.org/badges/version/panstarrs)](https://CRAN.R-project.org/package=panstarrs)
 
 <!-- badges: end -->
 
