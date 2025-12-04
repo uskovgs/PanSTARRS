@@ -1,0 +1,97 @@
+# panstarrs
+
+The goal of panstarrs package is to access
+[PanSTARRS](https://outerspace.stsci.edu/display/PANSTARRS/) data
+archive.
+
+## Installation
+
+You can install the released version of panstarrs with:
+
+``` r
+# devtools::install_github('uskovgs/PanSTARRS')
+install.packages("panstarrs")
+```
+
+## Example
+
+``` r
+ library(panstarrs)
+ library(magrittr)
+ library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+ coords <- ps1_mast_resolve('Antennae')
+ 
+ ps1_image_color(ra = coords$ra, 
+                 dec = coords$decl, 
+                 format = 'png', 
+                 size = 400) %>%
+   magick::image_read()
+```
+
+![](https://i.imgur.com/Yb7jJiG.png)
+
+``` r
+ fits_image_url <- ps1_image_url(ra = coords$ra,
+                                 dec = coords$decl,
+                                 size = 1280,
+                                 filter = "r",
+                                 format = "fits")
+ 
+ # fits_image <- FITSio::readFITS(fits_image_url)
+ 
+ 
+ 
+ ps1_crossmatch(ra = c(268.70342, 168.87258), 
+                dec = c(71.54292, 60.75153),
+                release = 'dr2',
+                table = 'mean') %>% 
+   select(MatchRA, MatchDEC, dstArcSec, `_searchID_`, objName) %>% 
+   arrange(`_searchID_`, dstArcSec)
+#> # A tibble: 8 × 5
+#>   MatchRA MatchDEC dstArcSec `_searchID_` objName              
+#>     <dbl>    <dbl>     <dbl>        <int> <chr>                
+#> 1    269.     71.5     1.25             0 PSO J268.7044+71.5430
+#> 2    269.     71.5     1.72             0 PSO J268.7033+71.5434
+#> 3    269.     71.5     1.83             0 PSO J268.7023+71.5425
+#> 4    269.     71.5     2.23             0 PSO J268.7053+71.5428
+#> 5    269.     71.5     2.91             0 PSO J268.7053+71.5424
+#> 6    269.     71.5     2.97             0 PSO J268.7059+71.5431
+#> 7    169.     60.8     0.470            1 PSO J168.8729+60.7515
+#> 8    169.     60.8     1.61             1 PSO J168.8733+60.7512
+```
+
+# Package index
+
+## All functions
+
+- [`ps1_cone()`](ps1_cone.md) : Do a cone search of the PS1 catalog
+- [`ps1_crossmatch()`](ps1_crossmatch.md) : Do a cross-match with PS1
+  catalog
+- [`ps1_image_color()`](ps1_image_color.md) : Get color image at a sky
+  position
+- [`ps1_image_gray()`](ps1_image_gray.md) : Get grayscale image at a sky
+  position
+- [`ps1_image_list()`](ps1_image_list.md) : Get list of images
+- [`ps1_image_url()`](ps1_image_url.md) : Get URL of images
+- [`ps1_mast_resolve()`](ps1_mast_resolve.md) : Get the RA and Dec for
+  an object using the MAST name resolver
+- [`ps1_metadata()`](ps1_metadata.md) : Metadata from PS1
+- [`ps1_resolve()`](ps1_resolve.md) : Get the RA and Dec for objects
+  from PanSTARRS catalog.
+- [`ps1_search()`](ps1_search.md) : Do a general search of the PS1
+  catalog (possibly without ra/dec/radius)
+
+# Articles
+
+### All vignettes
+
+- [How to work with catalogs](PS1_Cat.md):
+- [How to work with images](PS1_Images.md):

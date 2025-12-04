@@ -60,7 +60,18 @@ convert_types <- function(dt, cols, types) {
     "float" = as.double
   )
 
-  dt[cols] <- lapply(seq_along(cols), function(i) convert_function[[types[i]]](dt[[i]]))
+  #
+  # dt[cols] <- lapply(seq_along(cols), function(i) convert_function[[types[i]]](dt[[i]]))
+  dt[cols] <- lapply(seq_along(cols), function(i) {
+    f <- convert_function[[types[i]]]
+
+    if (is.null(f)) {
+      return(as.character(dt[[i]]))
+    }
+
+    f(dt[[i]])
+  })
+
 
   return(dt)
 }
@@ -224,7 +235,14 @@ ps1_search <- function(table = c("mean", "stack", "detection", "forced_mean"),
 
 
   json_colnames <- vapply(cont$info, function(x) x$name, character(1L))
-  dt <- data.table::rbindlist(cont$data)
+
+
+  template <- as.list(rep(NA, length(json_colnames)))
+  names(template) <- json_colnames
+  cont$data[[1]] <- template
+
+
+  dt <- data.table::rbindlist(cont$data, use.names = TRUE, fill = TRUE)
   data.table::setnames(dt, json_colnames)
 
   # convert bigint characters to int64

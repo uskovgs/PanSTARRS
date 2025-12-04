@@ -1,5 +1,3 @@
-## New version v0.2.2
+## New version v0.2.3
 
-This is a new release. In this version:
-
--   The problem with the old SSL certificate has been resolved on the server side.
+This is an update fixing compatibility with the Pan-STARRS DR2 API.

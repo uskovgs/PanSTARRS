@@ -1,3 +1,9 @@
+# panstarrs 0.2.3
+
+## Bug fixes and minor changes
+
+-  Small changes
+
 # panstarrs 0.2.2
 
 ## Bug fixes and minor changes
